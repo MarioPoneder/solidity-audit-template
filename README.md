@@ -85,7 +85,7 @@ $ REPORT_GAS=true yarn test
 
 ### Tracer
 
-Shows events, calls and storage operations when running the tests.
+Shows events, calls and storage operations when running the tests:
 
 ```sh
 yarn test --trace      # shows logs + calls
