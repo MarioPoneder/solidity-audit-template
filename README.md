@@ -9,6 +9,7 @@ My favorite setup for writing Solidity smart contracts.
 - [Solhint](https://github.com/protofire/solhint): linter
 - [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
+- [Tracer](https://github.com/zemse/hardhat-tracer): trace events, calls and storage operations
 
 This is a GitHub template, which means you can reuse it as many times as you want. You can do that by clicking the "Use this
 template" button at the top of the page.
@@ -80,6 +81,15 @@ See the gas usage per unit test and average gas per method call:
 
 ```sh
 $ REPORT_GAS=true yarn test
+```
+
+### Tracer
+
+Shows events, calls and storage operations when running the tests.
+
+```sh
+yarn test --trace      # shows logs + calls
+yarn test --fulltrace  # shows logs + calls + sloads + sstores
 ```
 
 ### Clean
