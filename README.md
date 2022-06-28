@@ -24,7 +24,7 @@ variable. Follow the example in `.env.example`. If you don't already have a mnem
 Then, proceed with installing dependencies:
 
 ```sh
-yarn install
+$ yarn install
 ```
 
 ### Compile
@@ -111,3 +111,11 @@ $ yarn deploy --greeting "Bonjour, le monde!"
 ## Syntax Highlighting
 
 If you use VSCode, you can enjoy syntax highlighting for your Solidity code via the [hardhat-vscode](https://github.com/NomicFoundation/hardhat-vscode) extension.
+
+## Caveats
+
+### Ethers and Waffle
+
+If you can't get the [Waffle matchers](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html) to work, try to
+make your `ethers` package version match the version used by the `@ethereum-waffle/chai` package. Seem
+[#111](https://github.com/paulrberg/solidity-template/issues/111) for more details.
