@@ -38,6 +38,7 @@
     "fs-extra": "^10.1.0",
     "hardhat": "^2.9.9",
     "hardhat-gas-reporter": "^1.0.8",
+    "hardhat-storage-layout": "^0.1.6",
     "hardhat-tracer": "^1.1.0-rc.6",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.1",
@@ -85,6 +86,7 @@
     "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "test": "hardhat test",
-    "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
+    "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain",
+    "storage": "hardhat storage-layout"
   }
 }

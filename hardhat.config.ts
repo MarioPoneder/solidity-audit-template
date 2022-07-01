@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import { config as dotenvConfig } from "dotenv";
 import "hardhat-gas-reporter";
+import "hardhat-storage-layout";
 import "hardhat-tracer";
 import { HardhatUserConfig } from "hardhat/config";
 import { NetworkUserConfig } from "hardhat/types";
@@ -11,6 +12,7 @@ import "solidity-coverage";
 
 import "./tasks/accounts";
 import "./tasks/deploy";
+import "./tasks/storage-layout";
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
@@ -115,6 +117,11 @@ const config: HardhatUserConfig = {
       optimizer: {
         enabled: true,
         runs: 800,
+      },
+      outputSelection: {
+        "*": {
+          "*": ["storageLayout"],
+        },
       },
     },
   },

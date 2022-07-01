@@ -10,6 +10,7 @@ My favorite setup for writing Solidity smart contracts.
 - [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
 - [Tracer](https://github.com/zemse/hardhat-tracer): trace events, calls and storage operations
+- [Storage Layout](https://github.com/aurora-is-near/hardhat-storage-layout): generate smart contract storage layout
 
 This is a GitHub template, which means you can reuse it as many times as you want. You can do that by clicking the "Use this
 template" button at the top of the page.
@@ -90,6 +91,14 @@ Shows events, calls and storage operations when running the tests:
 ```sh
 yarn test --trace      # shows logs + calls
 yarn test --fulltrace  # shows logs + calls + sloads + sstores
+```
+
+### Storage Layout
+
+Shows the compiled contracts' storage layouts:
+
+```sh
+yarn storage
 ```
 
 ### Clean
