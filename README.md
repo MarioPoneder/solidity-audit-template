@@ -65,7 +65,8 @@ $ yarn lint:ts
 Run the Mocha tests:
 
 ```sh
-$ yarn test
+$ yarn test                    # test on local mainnet fork
+$ yarn test --network hardhat  # test on local development network
 ```
 
 ### Coverage
@@ -99,6 +100,17 @@ Shows the compiled contracts' storage layouts:
 
 ```sh
 yarn storage
+```
+
+### Mainnet Fork
+
+Starts an instance of Hardhat Network that forks mainnet. This means that it will simulate having the same state as mainnet, but it will work as a local development network. That way you can interact with deployed protocols and test complex interactions locally.
+
+To use this feature you need to set your Alchemy mainnet API key in the `.env` file.
+
+```sh
+yarn fork
+yarn fork --fork-block-number <num>  # pin the block number
 ```
 
 ### Clean

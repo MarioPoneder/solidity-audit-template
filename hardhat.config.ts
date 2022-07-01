@@ -26,6 +26,10 @@ const infuraApiKey: string | undefined = process.env.INFURA_API_KEY;
 if (!infuraApiKey) {
   throw new Error("Please set your INFURA_API_KEY in a .env file");
 }
+const alchemyMainnetApiKey: string | undefined = process.env.ALCHEMY_MAINNET_API_KEY;
+if (!alchemyMainnetApiKey) {
+  throw new Error("Please set your ALCHEMY_MAINNET_API_KEY in a .env file");
+}
 
 const chainIds = {
   "arbitrum-mainnet": 42161,
@@ -63,7 +67,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
 }
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "localhost",
   etherscan: {
     apiKey: {
       arbitrumOne: process.env.ARBISCAN_API_KEY || "",
@@ -88,6 +92,14 @@ const config: HardhatUserConfig = {
         mnemonic,
       },
       chainId: chainIds.hardhat,
+    },
+    localhost: {
+      accounts: {
+        mnemonic,
+      },
+      forking: {
+        url: "https://eth-mainnet.alchemyapi.io/v2/" + alchemyMainnetApiKey,
+      },
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
     avalanche: getChainConfig("avalanche"),
