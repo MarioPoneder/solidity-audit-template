@@ -88,6 +88,7 @@
     "test": "hardhat test",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain",
     "storage": "hardhat storage-layout",
-    "fork": "hardhat node"
+    "fork": "hardhat node",
+    "clone": "python contract-downloader/download.py"
   }
 }

@@ -1,0 +1,3 @@
+python-dotenv
+etherscan-python
+polygonscan-python

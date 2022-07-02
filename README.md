@@ -26,6 +26,7 @@ Then, proceed with installing dependencies:
 
 ```sh
 $ yarn install
+$ pip install -r contract-downloader/requirements.txt  # for Python contract downloader
 ```
 
 ### Compile
@@ -90,8 +91,8 @@ $ REPORT_GAS=true yarn test
 Shows events, calls and storage operations when running the tests:
 
 ```sh
-yarn test --trace      # shows logs + calls
-yarn test --fulltrace  # shows logs + calls + sloads + sstores
+$ yarn test --trace      # shows logs + calls
+$ yarn test --fulltrace  # shows logs + calls + sloads + sstores
 ```
 
 ### Storage Layout
@@ -99,7 +100,7 @@ yarn test --fulltrace  # shows logs + calls + sloads + sstores
 Shows the compiled contracts' storage layouts:
 
 ```sh
-yarn storage
+$ yarn storage
 ```
 
 ### Mainnet Fork
@@ -109,8 +110,24 @@ Starts an instance of Hardhat Network that forks mainnet. This means that it wil
 To use this feature you need to set your Alchemy mainnet API key in the `.env` file.
 
 ```sh
-yarn fork
-yarn fork --fork-block-number <num>  # pin the block number
+$ yarn fork
+$ yarn fork --fork-block-number <num>  # pin the block number
+```
+
+### Clone (with Python contract downloader)
+
+Downloads a verified smart contract and its dependencies from Etherscan, etc.
+To use this feature you need to set the relevant API keys in the `.env` file.
+
+```sh
+$ yarn clone <contract address>
+$ yarn clone <contract address> --network <chain>  # e.g. polygon
+```
+
+In order to remove a previously downloaded smart contract and its dependencies from the local filesystem, run:
+
+```sh
+$ yarn clone <contract address> --remove
 ```
 
 ### Clean
