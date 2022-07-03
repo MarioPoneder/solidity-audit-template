@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.4;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
 error GreeterError();
 
-contract Greeter {
+contract Greeter is Ownable {
     string public greeting;
 
     constructor(string memory _greeting) {

@@ -2,7 +2,7 @@ import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signe
 import { artifacts, ethers, waffle } from "hardhat";
 import type { Artifact } from "hardhat/types";
 
-import type { Greeter } from "../../src/types/Greeter";
+import type { Greeter } from "../../src/types/contracts/Greeter";
 import { Signers } from "../types";
 import { shouldBehaveLikeGreeter } from "./Greeter.behavior";
 
