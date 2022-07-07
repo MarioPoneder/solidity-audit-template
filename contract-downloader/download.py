@@ -7,6 +7,19 @@ from etherscan import Etherscan
 from polygonscan import PolygonScan
 
 
+def _fakeInstallModule(sourceFilePath):
+    if "node_modules" in sourceFilePath:
+        modulePath = os.path.dirname(sourceFilePath)
+        while not os.path.dirname(os.path.dirname(modulePath)).endswith("node_modules"):
+            modulePath = os.path.dirname(modulePath)
+        
+        modulePackageFilePath = modulePath + "/package.json"
+        if not os.path.exists(modulePackageFilePath):
+            with open(modulePackageFilePath, 'w', encoding='utf-8') as f:
+                f.write("{ \"name\": \"\", \"version\": \"\" }")
+
+
+
 def _download(eth, contractAddress, remove):
     # get contract source code + dependencies
     contracts = eth.get_contract_source_code(contractAddress)
@@ -21,13 +34,20 @@ def _download(eth, contractAddress, remove):
         # replicate directory tree of contract source code + dependencies
         for sourceFileReference in sourceFiles:
             sourceFilePath = sourceFileReference
-            if sourceFilePath[0] == "@":  # is module import?
+            isModule = sourceFilePath[0] == "@"
+            
+            if isModule:  # put modules in 'node_modules'
                 sourceFilePath = "node_modules/" + sourceFilePath
+                
+            # make absolute path
             sourceFilePath = os.path.abspath("./" + sourceFilePath)
             print(os.path.relpath(sourceFilePath))
             
             if not remove:
                 os.makedirs(os.path.dirname(sourceFilePath), exist_ok=True)
+                if isModule:
+                    _fakeInstallModule(sourceFilePath)
+
                 with open(sourceFilePath, 'w', encoding='utf-8') as f:
                     f.write(sourceFiles[sourceFileReference]["content"])
             else:
