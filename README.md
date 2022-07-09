@@ -1,6 +1,6 @@
-# Solidity Template
+# Solidity Coding, Testing and Audit Template
 
-My favorite setup for writing Solidity smart contracts.
+My favorite setup for writing Solidity smart contracts as well as auditing/testing external contracts.
 
 - [Hardhat](https://github.com/nomiclabs/hardhat): compile and run the smart contracts on a local development network
 - [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript types for smart contracts
@@ -30,6 +30,40 @@ Then, proceed with installing dependencies:
 ```sh
 $ yarn install
 $ pip install -r contract-downloader/requirements.txt  # for Python contract downloader
+```
+
+### Example usage: External contract testing
+
+1. Download external contract + dependencies
+
+```sh
+$ yarn clone <contract address>
+```
+
+2. Set Solidity version in `hardhat.config.ts`
+3. Compile contract(s) and generate typings
+
+```sh
+$ yarn compile
+```
+
+4. Export the contracts' storage layouts
+
+```sh
+$ yarn storage
+```
+
+5. Fork the mainnet as a local Hardhat Network instance
+
+```sh
+$ yarn fork
+```
+
+6. Adapt the test templates to break/exploit the external contract in the local Hardhat Network instance
+
+```sh
+$ yarn attach <contract address>
+$ yarn attachContract <contract address>
 ```
 
 ### Compile
