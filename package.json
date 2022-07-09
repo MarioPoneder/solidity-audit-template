@@ -22,12 +22,14 @@
     "@typechain/ethers-v5": "^10.1.0",
     "@typechain/hardhat": "^6.1.0",
     "@types/chai": "^4.3.1",
+    "@types/chai-as-promised": "^7.1.5",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.1.1",
     "@types/node": "^17.0.42",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
     "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
     "commitizen": "^4.2.4",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -91,6 +93,7 @@
     "storage": "hardhat storage-layout",
     "fork": "hardhat node",
     "clone": "python contract-downloader/download.py",
-    "attach": "node src/runTestWithContractAddress test/external/Attach"
+    "attach": "node src/runTestWithContractAddress test/external/Attach",
+    "attachContract": "node src/runTestWithContractAddress test/external/AttachContract"
   }
 }
