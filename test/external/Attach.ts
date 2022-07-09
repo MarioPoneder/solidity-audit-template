@@ -8,7 +8,7 @@ import type { Greeter } from "../../src/types/contracts/Greeter";
 describe("Attach to external contract", async function () {
   let signer: SignerWithAddress;
 
-  // 2. change to  type of external contract
+  // 2. change to type of external contract
   let contract: Greeter;
 
   before(async function () {
@@ -17,7 +17,7 @@ describe("Attach to external contract", async function () {
     [signer] = await ethers.getSigners();
 
     // 3. change to name of external contract
-    const contractFactory = await ethers.getContractFactory("Greeter", this.signer);
+    const contractFactory = await ethers.getContractFactory("Greeter", signer);
     contract = contractFactory.attach(contractAddress);
   });
 
