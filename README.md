@@ -11,6 +11,9 @@ My favorite setup for writing Solidity smart contracts.
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
 - [Tracer](https://github.com/zemse/hardhat-tracer): trace events, calls and storage operations
 - [Storage Layout](https://github.com/aurora-is-near/hardhat-storage-layout): generate smart contract storage layout
+- Fork the mainnet as a Hardhat Network instance
+- Download external contracts and their dependencies (via Python script)
+- Attach tests to external contracts (in mainnet fork)
 
 This is a GitHub template, which means you can reuse it as many times as you want. You can do that by clicking the "Use this
 template" button at the top of the page.
@@ -63,11 +66,10 @@ $ yarn lint:ts
 
 ### Test
 
-Run the Mocha tests:
+Run the Mocha test for the example Greeter contract:
 
 ```sh
-$ yarn test                    # test on local mainnet fork
-$ yarn test --network hardhat  # test on local development network
+$ yarn test
 ```
 
 ### Coverage
@@ -83,7 +85,8 @@ $ yarn coverage
 See the gas usage per unit test and average gas per method call:
 
 ```sh
-$ REPORT_GAS=true yarn test
+$ REPORT_GAS=true
+$ yarn test
 ```
 
 ### Tracer
@@ -130,6 +133,17 @@ In order to remove a previously downloaded smart contract and its dependencies f
 $ yarn clone <contract address> --remove
 ```
 
+### Attach test to external contract
+
+Attaches the Mocha test `external/Attach` to a deployed contract in your local Hardhat Network (e.g. mainnet fork).
+The test contains sample code for the Greeter contract and therefore needs to be adapted according to your needs.
+
+```sh
+$ yarn attach <contract address>
+```
+
+Features like [Report Gas](#report-gas) and [Tracer](#tracer) can also be used with this test.
+
 ### Clean
 
 Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
@@ -140,10 +154,10 @@ $ yarn clean
 
 ### Deploy
 
-Deploy the contracts to Hardhat Network:
+Deploy the example Greeter contract to the Hardhat Network:
 
 ```sh
-$ yarn deploy --greeting "Bonjour, le monde!"
+$ yarn deploy --greeting "Hello, world!"
 ```
 
 ## Syntax Highlighting
