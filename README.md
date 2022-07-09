@@ -144,6 +144,17 @@ $ yarn attach <contract address>
 
 Features like [Report Gas](#report-gas) and [Tracer](#tracer) can also be used with this test.
 
+### Attach test contract to external contract
+
+Attaches the Mocha test `external/AttachContract` and the contract `test/Test` to a deployed contract in your local Hardhat Network (e.g. mainnet fork).
+The test contains sample code for the Greeter contract and therefore needs to be adapted according to your needs.
+
+```sh
+$ yarn attachContract <contract address>
+```
+
+Features like [Report Gas](#report-gas) and [Tracer](#tracer) can also be used with this test.
+
 ### Clean
 
 Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
