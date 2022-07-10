@@ -38,7 +38,7 @@ def _download(eth, contractAddress, remove):
             
             if isModule:  # put modules in 'node_modules'
                 sourceFilePath = "node_modules/" + sourceFilePath
-            elif not sourceFilePath.startswith("contracts"):
+            elif not sourceFilePath.startswith("contracts/"):
                 sourceFilePath = "contracts/" + sourceFilePath
                 
             # make absolute path
