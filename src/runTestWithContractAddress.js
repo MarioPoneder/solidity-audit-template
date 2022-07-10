@@ -22,9 +22,15 @@ for (i = 4; i < process.argv.length; ++i) {
 }
 
 try {
-  execSync("npx cross-env CONTRACT_ADDRESS=" + contractAddress + " hardhat test " + testFile + otherArgs, {
-    stdio: "inherit",
-  });
+  execSync(
+    "npx cross-env CONTRACT_ADDRESS=" +
+      contractAddress +
+      " hardhat test " +
+      testFile +
+      otherArgs +
+      " --network localhost",
+    { stdio: "inherit" },
+  );
 } catch (ex) {
   // ignore when test fails, error output is given by 'hardhat test' anyways
 }

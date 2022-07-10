@@ -79,7 +79,7 @@
     "commit": "git-cz",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "yarn typechain && hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && yarn typechain",
-    "deploy": "hardhat deploy:Greeter",
+    "deploy": "hardhat deploy:Greeter --network localhost",
     "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:check",
     "lint:sol": "solhint --config ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js,.ts .",
@@ -88,12 +88,13 @@
     "prepublishOnly": "pinst --disable",
     "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
-    "test": "hardhat test test/greeter/Greeter.ts --network hardhat",
+    "test": "hardhat test test/greeter/Greeter.ts",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain",
     "storage": "hardhat storage-layout",
     "fork": "hardhat node",
     "clone": "python contract-downloader/download.py",
     "attach": "node src/runTestWithContractAddress test/external/Attach",
-    "attachContract": "node src/runTestWithContractAddress test/external/AttachContract"
+    "attachContract": "node src/runTestWithContractAddress test/external/AttachContract",
+    "slither": "slither . --checklist > slither_report.md"
   }
 }

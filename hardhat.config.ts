@@ -86,7 +86,7 @@ const soliditySettings: any = {
 };
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "localhost",
+  defaultNetwork: "hardhat",
   etherscan: {
     apiKey: {
       arbitrumOne: process.env.ARBISCAN_API_KEY || "",
@@ -107,12 +107,6 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      accounts: {
-        mnemonic,
-      },
-      chainId: chainIds.hardhat,
-    },
-    localhost: {
       accounts: {
         mnemonic,
       },
