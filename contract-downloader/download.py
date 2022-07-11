@@ -55,7 +55,10 @@ def _download(eth, contractAddress, remove):
             else:
                 try:
                     os.remove(sourceFilePath)
-                    os.rmdir(os.path.dirname(sourceFilePath))
+                    parentDir = os.path.dirname(sourceFilePath)
+                    for i in range(4): # try to remove empty parent dirs
+                        os.rmdir(parentDir)
+                        parentDir = os.path.dirname(parentDir)
                 except Exception:
                     pass
 
