@@ -92,6 +92,7 @@
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain",
     "storage": "hardhat storage-layout",
     "fork": "hardhat node",
+    "forkNetwork": "node src/forkNetwork",
     "clone": "python contract-downloader/download.py",
     "attach": "node src/runTestWithContractAddress test/external/Attach",
     "attachContract": "node src/runTestWithContractAddress test/external/AttachContract",

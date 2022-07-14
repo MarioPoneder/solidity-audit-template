@@ -6,7 +6,6 @@ import "hardhat-gas-reporter";
 import "hardhat-storage-layout";
 import "hardhat-tracer";
 import { HardhatUserConfig } from "hardhat/config";
-import { NetworkUserConfig } from "hardhat/types";
 import { resolve } from "path";
 import "solidity-coverage";
 
@@ -26,12 +25,8 @@ const infuraApiKey: string | undefined = process.env.INFURA_API_KEY;
 if (!infuraApiKey) {
   throw new Error("Please set your INFURA_API_KEY in a .env file");
 }
-const alchemyMainnetApiKey: string | undefined = process.env.ALCHEMY_MAINNET_API_KEY;
-if (!alchemyMainnetApiKey) {
-  throw new Error("Please set your ALCHEMY_MAINNET_API_KEY in a .env file");
-}
 
-const chainIds = {
+const chainIds: { [name: string]: number } = {
   "arbitrum-mainnet": 42161,
   avalanche: 43114,
   bsc: 56,
@@ -41,9 +36,10 @@ const chainIds = {
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
   rinkeby: 4,
+  moonbeam: 1284,
 };
 
-function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
+function getChainConfig(chain: string): any {
   let jsonRpcUrl: string;
   switch (chain) {
     case "avalanche":
@@ -51,6 +47,9 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       break;
     case "bsc":
       jsonRpcUrl = "https://bsc-dataseed1.binance.org";
+      break;
+    case "moonbeam":
+      jsonRpcUrl = "https://moonbeam.api.onfinality.io/public";
       break;
     default:
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey;
@@ -111,7 +110,7 @@ const config: HardhatUserConfig = {
         mnemonic,
       },
       forking: {
-        url: "https://eth-mainnet.alchemyapi.io/v2/" + alchemyMainnetApiKey,
+        url: getChainConfig(process.env.NETWORK_NAME || "mainnet").url,
       },
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
@@ -122,6 +121,7 @@ const config: HardhatUserConfig = {
     "polygon-mainnet": getChainConfig("polygon-mainnet"),
     "polygon-mumbai": getChainConfig("polygon-mumbai"),
     rinkeby: getChainConfig("rinkeby"),
+    moonbeam: getChainConfig("moonbeam"),
   },
   paths: {
     artifacts: "./artifacts",
@@ -137,6 +137,10 @@ const config: HardhatUserConfig = {
       },
       {
         version: "0.7.6",
+        settings: soliditySettings,
+      },
+      {
+        version: "0.6.12",
         settings: soliditySettings,
       },
     ],

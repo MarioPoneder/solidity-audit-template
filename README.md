@@ -11,7 +11,7 @@ My favorite setup for writing Solidity smart contracts as well as auditing/testi
 - [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
 - [Tracer](https://github.com/zemse/hardhat-tracer): trace events, calls and storage operations
 - [Storage Layout](https://github.com/aurora-is-near/hardhat-storage-layout): generate smart contract storage layout
-- Fork the mainnet as a Hardhat Network instance
+- Fork the mainnet or another EVM based network as a Hardhat Network instance
 - Download external contracts and their dependencies (via Python script)
 - Attach tests to external contracts (in mainnet fork)
 
@@ -144,11 +144,19 @@ $ yarn storage
 
 Starts an instance of Hardhat Network that forks mainnet. This means that it will simulate having the same state as mainnet, but it will work as a local development network. That way you can interact with deployed protocols and test complex interactions locally.
 
-To use this feature you need to set your Alchemy mainnet API key in the `.env` file.
+To use this feature you need to set your Infura API key in the `.env` file.
 
 ```sh
 $ yarn fork
 $ yarn fork --fork-block-number <num>  # pin the block number
+```
+
+### Network Fork
+
+Starts an instance of Hardhat Network that forks an EVM based network. Supported networks are given by `chainIds[]` in `hardhat.config.ts`.
+
+```sh
+$ yarn forkNetwork --network <chain>   # e.g. rinkeby or polygon-mainnet
 ```
 
 ### Clone (with Python contract downloader)
