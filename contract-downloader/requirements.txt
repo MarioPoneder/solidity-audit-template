@@ -1,3 +1,4 @@
 python-dotenv
 etherscan-python
 polygonscan-python
+bscscan-python

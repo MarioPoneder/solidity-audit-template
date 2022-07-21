@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from etherscan import Etherscan
 from polygonscan import PolygonScan
+from bscscan import BscScan
 
 
 def _fakeInstallModule(sourceFilePath):
@@ -68,7 +69,7 @@ if __name__ == "__main__":
         # get contract address and network from command line
         parser = argparse.ArgumentParser(description='Downloads a verified smart contract and its dependencies from Etherscan, etc.')
         parser.add_argument('contractAddress', type=str, help='address of a verified contract')
-        parser.add_argument('-n', '--network', type=str, help='network: mainnet or polygon (default=mainnet)', default='mainnet')
+        parser.add_argument('-n', '--network', type=str, help='network: mainnet, polygon or bsc (default=mainnet)', default='mainnet')
         parser.add_argument('-r', '--remove', action='store_true', help='remove previously downloaded contract from local filesystem')
         args = parser.parse_args()
         
@@ -76,6 +77,7 @@ if __name__ == "__main__":
         load_dotenv()
         etherscanApiKey = os.getenv('ETHERSCAN_API_KEY')
         polygonscanApiKey = os.getenv('POLYGONSCAN_API_KEY')
+        bscscanApiKey = os.getenv('BSCSCAN_API_KEY')
         
         
         if not args.remove:
@@ -88,6 +90,9 @@ if __name__ == "__main__":
             _download(eth, args.contractAddress, args.remove)
         elif args.network == "polygon":
             with PolygonScan(polygonscanApiKey, False) as eth:
+                _download(eth, args.contractAddress, args.remove)
+        elif args.network == "bsc":
+            with BscScan(bscscanApiKey, False) as eth:
                 _download(eth, args.contractAddress, args.remove)
         else:
             print("Unsupported network!")
