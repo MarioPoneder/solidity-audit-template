@@ -46,7 +46,7 @@ function getChainConfig(chain: string): any {
       jsonRpcUrl = "https://api.avax.network/ext/bc/C/rpc";
       break;
     case "bsc":
-      jsonRpcUrl = "https://bsc-dataseed1.binance.org";
+      jsonRpcUrl = "https://rpc.ankr.com/bsc";
       break;
     case "moonbeam":
       jsonRpcUrl = "https://moonbeam.api.onfinality.io/public";
