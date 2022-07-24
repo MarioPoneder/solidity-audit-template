@@ -29,3 +29,6 @@ describe("Attach to external contract", async function () {
     expect(await contract.connect(signer).greet()).to.equal("Bonjour, le monde!");
   });
 });
+
+// Attach via Interface:
+// let contractInstance = await ethers.getContractAt("ContractInterface", contractAddress);
