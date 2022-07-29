@@ -2,33 +2,28 @@ import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signe
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-// 1. change to types of external contract
-import type { Greeter } from "../../src/types/contracts/Greeter";
+import * as contracts from "../../src/types";
 
 describe("Attach to external contract", async function () {
   let signer: SignerWithAddress;
 
-  // 2. change to type of external contract
-  let contract: Greeter;
+  // 1. change to type of external contract
+  let targetContract: contracts.Greeter;
 
   before(async function () {
     // address of external contract must be provided via env. variable
     const contractAddress: string = <string>process.env.CONTRACT_ADDRESS;
     [signer] = await ethers.getSigners();
 
-    // 3. change to name of external contract
-    const contractFactory = await ethers.getContractFactory("Greeter", signer);
-    contract = contractFactory.attach(contractAddress);
+    // 2. change to name of external contract
+    targetContract = await ethers.getContractAt("Greeter", contractAddress, signer);
   });
 
-  // 4. implement interactions with external contract
+  // 3. implement interactions with external contract
   it("Sample test case", async function () {
-    expect(await contract.connect(signer).greet()).to.equal("Hello, world!");
+    expect(await targetContract.connect(signer).greet()).to.equal("Hello, world!");
 
-    await contract.setGreeting("Bonjour, le monde!");
-    expect(await contract.connect(signer).greet()).to.equal("Bonjour, le monde!");
+    await targetContract.setGreeting("Bonjour, le monde!");
+    expect(await targetContract.connect(signer).greet()).to.equal("Bonjour, le monde!");
   });
 });
-
-// Attach via Interface:
-// let contractInstance = await ethers.getContractAt("ContractInterface", contractAddress);
