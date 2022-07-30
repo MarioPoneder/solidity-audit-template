@@ -6,6 +6,7 @@ import "hardhat-gas-reporter";
 import "hardhat-storage-layout";
 import "hardhat-tracer";
 import { HardhatUserConfig } from "hardhat/config";
+import { HardhatNetworkForkingUserConfig, HardhatNetworkUserConfig, SolcUserConfig } from "hardhat/types";
 import { resolve } from "path";
 import "solidity-coverage";
 
@@ -39,7 +40,7 @@ const chainIds: { [name: string]: number } = {
   moonbeam: 1284,
 };
 
-function getChainConfig(chain: string): any {
+function getChainConfig(chain: string): HardhatNetworkUserConfig & HardhatNetworkForkingUserConfig {
   let jsonRpcUrl: string;
   switch (chain) {
     case "avalanche":
@@ -65,24 +66,43 @@ function getChainConfig(chain: string): any {
   };
 }
 
-const soliditySettings: any = {
-  metadata: {
-    // Not including the metadata hash
-    // https://github.com/paulrberg/solidity-template/issues/31
-    bytecodeHash: "none",
-  },
-  // Disable the optimizer when debugging
-  // https://hardhat.org/hardhat-network/#solidity-optimizer-support
-  optimizer: {
-    enabled: true,
-    runs: 800,
-  },
-  outputSelection: {
-    "*": {
-      "*": ["storageLayout"],
-    },
-  },
-};
+function getCompilerSettings(versions: string[]): SolcUserConfig[] {
+  let compilerSettings: SolcUserConfig[] = [];
+
+  for (let ver of versions) {
+    let solSettings: any = {
+      metadata: {
+        // Not including the metadata hash
+        // https://github.com/paulrberg/solidity-template/issues/31
+        bytecodeHash: "none",
+      },
+      // Disable the optimizer when debugging
+      // https://hardhat.org/hardhat-network/#solidity-optimizer-support
+      optimizer: {
+        enabled: true,
+        runs: 800,
+      },
+      outputSelection: {
+        "*": {
+          "*": ["storageLayout"],
+        },
+      },
+    };
+
+    // metadata key is not supported in solc versions < 0.6.0
+    if (ver.localeCompare("0.6.0", undefined, { numeric: true, sensitivity: "base" }) < 0) {
+      delete solSettings.metadata;
+    }
+
+    // add to list of settings
+    compilerSettings.push({
+      version: ver,
+      settings: solSettings,
+    });
+  }
+
+  return compilerSettings;
+}
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -109,9 +129,7 @@ const config: HardhatUserConfig = {
       accounts: {
         mnemonic,
       },
-      forking: {
-        url: getChainConfig(process.env.NETWORK_NAME || "mainnet").url,
-      },
+      forking: getChainConfig(process.env.NETWORK_NAME || "mainnet"),
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
     avalanche: getChainConfig("avalanche"),
@@ -130,20 +148,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    compilers: [
-      {
-        version: "0.8.15",
-        settings: soliditySettings,
-      },
-      {
-        version: "0.7.6",
-        settings: soliditySettings,
-      },
-      {
-        version: "0.6.12",
-        settings: soliditySettings,
-      },
-    ],
+    compilers: getCompilerSettings(["0.8.13", "0.7.6", "0.6.12"]),
   },
   typechain: {
     outDir: "src/types",
