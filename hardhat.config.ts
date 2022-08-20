@@ -148,7 +148,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    compilers: getCompilerSettings(["0.8.13", "0.7.6", "0.6.12"]),
+    compilers: getCompilerSettings(["0.8.15"]),
   },
   typechain: {
     outDir: "src/types",
