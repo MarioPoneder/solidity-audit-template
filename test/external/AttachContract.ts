@@ -1,7 +1,7 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { use as chaiUse, expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { artifacts, ethers, waffle } from "hardhat";
+import { artifacts, ethers, network, waffle } from "hardhat";
 import type { Artifact } from "hardhat/types";
 
 import * as contracts from "../../src/types";
