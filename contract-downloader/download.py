@@ -21,13 +21,18 @@ def _fakeInstallModule(sourceFilePath):
 
 
 
-def _download(eth, contractAddress, remove):
+def _download(eth, contractAddress, remove, resolveImpl):
     # get contract source code + dependencies
     contracts = eth.get_contract_source_code(contractAddress)
 
     for contract in contracts:
         contractName = contract["ContractName"]
         print("----- Contract:", contractName, "-----")
+        if resolveImpl and contract["Proxy"] == "1":
+            implAddress = contract["Implementation"]
+            print("Proxy! -> Using implementation contract", implAddress, "instead ...")
+            _download(eth, implAddress, remove, False)
+            return
 
         # parse contract source code + dependencies form JSON
         sourceFiles = json.loads(contract["SourceCode"][1:-1])["sources"]
@@ -70,6 +75,7 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description='Downloads a verified smart contract and its dependencies from Etherscan, etc.')
         parser.add_argument('contractAddress', type=str, help='address of a verified contract')
         parser.add_argument('-n', '--network', type=str, help='network: mainnet, polygon or bsc (default=mainnet)', default='mainnet')
+        parser.add_argument('-i', '--impl', action='store_true', help='if specified contract is proxy: resolve and download implementation instead')
         parser.add_argument('-r', '--remove', action='store_true', help='remove previously downloaded contract from local filesystem')
         args = parser.parse_args()
         
@@ -87,13 +93,13 @@ if __name__ == "__main__":
         
         if args.network == "mainnet":
             eth = Etherscan(etherscanApiKey)
-            _download(eth, args.contractAddress, args.remove)
+            _download(eth, args.contractAddress, args.remove, args.impl)
         elif args.network == "polygon":
             with PolygonScan(polygonscanApiKey, False) as eth:
-                _download(eth, args.contractAddress, args.remove)
+                _download(eth, args.contractAddress, args.remove, args.impl)
         elif args.network == "bsc":
             with BscScan(bscscanApiKey, False) as eth:
-                _download(eth, args.contractAddress, args.remove)
+                _download(eth, args.contractAddress, args.remove, args.impl)
         else:
             print("Unsupported network!")
         
