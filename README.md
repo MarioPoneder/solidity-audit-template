@@ -13,6 +13,7 @@ My favorite setup for writing Solidity smart contracts as well as auditing/testi
 - [Storage Layout](https://github.com/aurora-is-near/hardhat-storage-layout): generate smart contract storage layout
 - Fork the mainnet or another EVM based network as a Hardhat Network instance
 - Download external contracts and their dependencies (via Python script)
+- Gather contracts in scope from Immuenfi bug bounty (via Python script)
 - Attach tests to external contracts (in mainnet fork)
 
 This is a GitHub template, which means you can reuse it as many times as you want. You can do that by clicking the "Use this
@@ -34,10 +35,12 @@ $ pip install -r contract-downloader/requirements.txt  # for Python contract dow
 
 ### Example usage: External contract testing
 
-1. Download external contract + dependencies
+1. Download external contract + dependencies or download contracts from Immunefi bug bounty
 
 ```sh
 $ yarn clone <contract address>
+# OR
+$ yarn immunefi <bug bounty URL>
 ```
 
 2. Set Solidity version in `hardhat.config.ts`
@@ -156,7 +159,7 @@ $ yarn fork --fork-block-number <num>  # pin the block number
 Starts an instance of Hardhat Network that forks an EVM based network. Supported networks are given by `chainIds[]` in `hardhat.config.ts`.
 
 ```sh
-$ yarn forkNetwork --network <chain>   # e.g. rinkeby or polygon-mainnet
+$ yarn forkNetwork --network <chain>  # e.g. rinkeby or polygon-mainnet
 ```
 
 ### Clone (with Python contract downloader)
@@ -179,6 +182,15 @@ Furthermore, implementation contracts can be downloaded through proxies by:
 
 ```sh
 $ yarn clone <proxy contract address> --impl
+```
+
+### Immunefi (with Python contract downloader)
+
+Gathers all block explorer links to verified smart contracts in scope from an Immunefi bug bounty page and forwards them to the downloader, see [Clone](#clone).
+
+```sh
+$ yarn immunefi <bug bounty URL>
+$ yarn immunefi <bug bounty URL> --remove  #  delete contracts
 ```
 
 ### Attach test to external contract

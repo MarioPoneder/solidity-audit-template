@@ -20,7 +20,6 @@ def _fakeInstallModule(sourceFilePath):
                 f.write("{ \"name\": \"\", \"version\": \"\" }")
 
 
-
 def _download(eth, contractAddress, remove, resolveImpl):
     # get contract source code + dependencies
     contracts = eth.get_contract_source_code(contractAddress)
@@ -33,9 +32,12 @@ def _download(eth, contractAddress, remove, resolveImpl):
             print("Proxy! -> Using implementation contract", implAddress, "instead ...")
             _download(eth, implAddress, remove, False)
             return
-
+        
         # parse contract source code + dependencies form JSON
-        sourceFiles = json.loads(contract["SourceCode"][1:-1])["sources"]
+        try:
+            sourceFiles = json.loads(contract["SourceCode"][1:-1])["sources"]
+        except json.decoder.JSONDecodeError:
+            raise Exception("Failed to get individual source files. Contract was probably merged to single file upon verification.")
 
         # replicate directory tree of contract source code + dependencies
         for sourceFileReference in sourceFiles:
@@ -69,6 +71,31 @@ def _download(eth, contractAddress, remove, resolveImpl):
                     pass
 
 
+def start(network, contractAddress, remove, resolveImpl):
+    # get API keys from .env file
+    load_dotenv()
+    etherscanApiKey = os.getenv('ETHERSCAN_API_KEY')
+    polygonscanApiKey = os.getenv('POLYGONSCAN_API_KEY')
+    bscscanApiKey = os.getenv('BSCSCAN_API_KEY')
+    
+    if not remove:
+        print("Downloading", network, "contract", contractAddress, "...")
+    else:
+        print("Removing", network, "contract", contractAddress, "...")
+    
+    if network == "mainnet":
+        eth = Etherscan(etherscanApiKey)
+        _download(eth, contractAddress, remove, resolveImpl)
+    elif network == "polygon":
+        with PolygonScan(polygonscanApiKey, False) as eth:
+            _download(eth, contractAddress, remove, resolveImpl)
+    elif network == "bsc":
+        with BscScan(bscscanApiKey, False) as eth:
+            _download(eth, contractAddress, remove, resolveImpl)
+    else:
+        print("Unsupported network!")
+
+
 if __name__ == "__main__":
     try:
         # get contract address and network from command line
@@ -79,29 +106,7 @@ if __name__ == "__main__":
         parser.add_argument('-r', '--remove', action='store_true', help='remove previously downloaded contract from local filesystem')
         args = parser.parse_args()
         
-        # get API keys from .env file
-        load_dotenv()
-        etherscanApiKey = os.getenv('ETHERSCAN_API_KEY')
-        polygonscanApiKey = os.getenv('POLYGONSCAN_API_KEY')
-        bscscanApiKey = os.getenv('BSCSCAN_API_KEY')
-        
-        
-        if not args.remove:
-            print("Downloading", args.network, "contract", args.contractAddress, "...")
-        else:
-            print("Removing", args.network, "contract", args.contractAddress, "...")
-        
-        if args.network == "mainnet":
-            eth = Etherscan(etherscanApiKey)
-            _download(eth, args.contractAddress, args.remove, args.impl)
-        elif args.network == "polygon":
-            with PolygonScan(polygonscanApiKey, False) as eth:
-                _download(eth, args.contractAddress, args.remove, args.impl)
-        elif args.network == "bsc":
-            with BscScan(bscscanApiKey, False) as eth:
-                _download(eth, args.contractAddress, args.remove, args.impl)
-        else:
-            print("Unsupported network!")
+        start(args.network, args.contractAddress, args.remove, args.impl)
         
         print("")
         print("Done!")

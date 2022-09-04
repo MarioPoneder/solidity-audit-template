@@ -94,6 +94,7 @@
     "fork": "hardhat node",
     "forkNetwork": "node src/forkNetwork",
     "clone": "python contract-downloader/download.py",
+    "immunefi": "python contract-downloader/immunefi-get.py",
     "attach": "node src/runTestWithContractAddress test/external/Attach",
     "attachContract": "node src/runTestWithContractAddress test/external/AttachContract",
     "slither": "slither . --checklist > slither_report.md"
