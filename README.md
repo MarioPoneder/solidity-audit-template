@@ -166,13 +166,19 @@ To use this feature you need to set the relevant API keys in the `.env` file.
 
 ```sh
 $ yarn clone <contract address>
-$ yarn clone <contract address> --network <chain>  # e.g. polygon
+$ yarn clone <contract address> --network <chain>  # e.g. polygon or bsc
 ```
 
 In order to remove a previously downloaded smart contract and its dependencies from the local filesystem, run:
 
 ```sh
 $ yarn clone <contract address> --remove
+```
+
+Furthermore, implementation contracts can be downloaded through proxies by:
+
+```sh
+$ yarn clone <proxy contract address> --impl
 ```
 
 ### Attach test to external contract
