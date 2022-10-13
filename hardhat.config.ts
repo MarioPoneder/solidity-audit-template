@@ -38,6 +38,7 @@ const chainIds: { [name: string]: number } = {
   "polygon-mumbai": 80001,
   rinkeby: 4,
   moonbeam: 1284,
+  "aurora-mainnet": 1313161554,
 };
 
 function getChainConfig(chain: string): HardhatNetworkUserConfig & HardhatNetworkForkingUserConfig {
@@ -140,6 +141,7 @@ const config: HardhatUserConfig = {
     "polygon-mumbai": getChainConfig("polygon-mumbai"),
     rinkeby: getChainConfig("rinkeby"),
     moonbeam: getChainConfig("moonbeam"),
+    aurora: getChainConfig("aurora-mainnet"),
   },
   paths: {
     artifacts: "./artifacts",
