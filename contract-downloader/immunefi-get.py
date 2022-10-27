@@ -29,7 +29,8 @@ if __name__ == "__main__":
             assetLink = assetLink.text.strip()
             for explorer in supportedExplorers:
                 if ("/"+explorer+".") in assetLink: # check if link to supported block explorer
-                    contractAddress = assetLink[-42:] # get 20 bytes hex address from end of link
+                    addressPos = assetLink.index('0x')
+                    contractAddress = assetLink[addressPos:addressPos+42] # get 20 bytes hex address from link
                     contracts.append((explorer, contractAddress))
                     break
         
