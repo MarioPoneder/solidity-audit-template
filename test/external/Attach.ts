@@ -13,14 +13,21 @@ describe("Attach to external contract", async function () {
   before(async function () {
     // address of external contract must be provided via env. variable
     const contractAddress: string = <string>process.env.CONTRACT_ADDRESS;
-    [signer] = await ethers.getSigners();
+    const impersonateAddress: string = <string>process.env.IMPERSONATE_ADDRESS;
+
+    if (impersonateAddress) {
+      await network.provider.request({ method: "hardhat_impersonateAccount", params: [impersonateAddress] });
+      signer = await ethers.getSigner(impersonateAddress);
+    } else {
+      [signer] = await ethers.getSigners();
+    }
 
     // 2. change to name of external contract
     targetContract = await ethers.getContractAt("Greeter", contractAddress, signer);
   });
 
   // 3. implement interactions with external contract
-  it("Sample test case", async function () {
+  it("Main test case", async function () {
     expect(await targetContract.connect(signer).greet()).to.equal("Hello, world!");
 
     await targetContract.setGreeting("Bonjour, le monde!");

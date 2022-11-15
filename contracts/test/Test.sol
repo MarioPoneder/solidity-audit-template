@@ -5,20 +5,20 @@ pragma solidity >=0.8.4;
 import "../Greeter.sol";
 
 contract Test {
-    // 2. change type
-    Greeter immutable target;
+    address immutable targetAddress;
 
-    constructor(address _contractAddress) {
-        // 3. change type
-        target = Greeter(_contractAddress);
+    constructor(address _targetAddress) {
+        targetAddress = _targetAddress;
     }
 
     function stringEqual(string memory str1, string memory str2) internal pure returns (bool) {
         return keccak256(abi.encodePacked(str1)) == keccak256(abi.encodePacked(str2));
     }
 
-    // 4. implement test cases
-    function sampleTestCase() external {
+    // 2. implement test cases
+    function mainTestCase() external {
+        Greeter target = Greeter(targetAddress);
+
         require(stringEqual(target.greet(), "Hello, world!"), "Unexpected greeting");
 
         target.setGreeting("Bonjour, le monde!");

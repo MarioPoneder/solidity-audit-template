@@ -14,7 +14,7 @@ My favorite setup for writing Solidity smart contracts as well as auditing/testi
 - Fork the mainnet or another EVM based network as a Hardhat Network instance
 - Download external contracts and their dependencies (via Python script)
 - Gather contracts in scope from Immuenfi bug bounty (via Python script)
-- Attach tests to external contracts (in mainnet fork)
+- Attach tests to external contracts and impersonate accounts (in mainnet fork)
 
 This is a GitHub template, which means you can reuse it as many times as you want. You can do that by clicking the "Use this
 template" button at the top of the page.
@@ -199,7 +199,7 @@ Attaches the Mocha test `external/Attach` to a deployed contract in your local H
 The test contains sample code for the Greeter contract and therefore needs to be adapted according to your needs.
 
 ```sh
-$ yarn attach <contract address>
+$ yarn attach <contract address> [--impersonate <address>]
 ```
 
 Features like [Report Gas](#report-gas) and [Tracer](#tracer) can also be used with this test.
@@ -210,7 +210,7 @@ Attaches the Mocha test `external/AttachContract` and the contract `test/Test` t
 The test contains sample code for the Greeter contract and therefore needs to be adapted according to your needs.
 
 ```sh
-$ yarn attachContract <contract address>
+$ yarn attachContract <contract address> [--impersonate <address>]
 ```
 
 Features like [Report Gas](#report-gas) and [Tracer](#tracer) can also be used with this test.
