@@ -21,16 +21,18 @@ describe("Attach test contract to external contract", async function () {
     const contractAddress: string = <string>process.env.CONTRACT_ADDRESS;
     const impersonateAddress: string = <string>process.env.IMPERSONATE_ADDRESS;
 
-    if (impersonateAddress) {
-      await network.provider.request({ method: "hardhat_impersonateAccount", params: [impersonateAddress] });
-      signer = await ethers.getSigner(impersonateAddress);
-    } else {
-      [signer] = await ethers.getSigners();
-    }
+    [signer] = await ethers.getSigners();
 
     const testArtifact: Artifact = await artifacts.readArtifact("Test");
     // deploy test contract and pass address of external contract
     test = <contracts.Test>await waffle.deployContract(signer, testArtifact, [contractAddress]);
+
+    if (impersonateAddress) {
+      // get deployed code of Test contract and "deploy" it at 'impersonateAddress'
+      const deployedCode = await ethers.provider.getCode(test.address);
+      await network.provider.request({ method: "hardhat_setCode", params: [impersonateAddress, deployedCode] });
+      test = await ethers.getContractAt("Test", impersonateAddress, signer);
+    }
 
     // optional
     //targetContract = await ethers.getContractAt("Greeter", contractAddress, signer);
