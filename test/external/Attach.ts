@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { ethers, network } from "hardhat";
 
 import * as contracts from "../../src/types";
+import { impersonate } from "./helper";
 
 describe("Attach to external contract", async function () {
   let signer: SignerWithAddress;
@@ -16,11 +17,20 @@ describe("Attach to external contract", async function () {
     const impersonateAddress: string = <string>process.env.IMPERSONATE_ADDRESS;
 
     if (impersonateAddress) {
-      await network.provider.request({ method: "hardhat_impersonateAccount", params: [impersonateAddress] });
-      signer = await ethers.getSigner(impersonateAddress);
+      signer = await impersonate(impersonateAddress);
     } else {
       [signer] = await ethers.getSigners();
     }
+
+    /*
+    // optional: prepare ETH and ERC20 balances
+    const contractWETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+    const holderWETH = "0xf04a5cc80b1e94c69b48f5ee68a08cd2f09a7c3e";
+    await addBalance_ETH(signer.address, 1);
+    await sendToken_ERC20(contractWETH, holderWETH, signer.address, 2.5);
+    await printBalance_ETH(signer.address);
+    await printBalance_ERC20(contractWETH, signer.address);
+    */
 
     // 2. change to name of external contract
     targetContract = await ethers.getContractAt("Greeter", contractAddress, signer);

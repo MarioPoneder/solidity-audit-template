@@ -5,6 +5,7 @@ import { artifacts, ethers, network, waffle } from "hardhat";
 import type { Artifact } from "hardhat/types";
 
 import * as contracts from "../../src/types";
+import { addBalance_ETH, printBalance_ERC20, printBalance_ETH, sendToken_ERC20 } from "./helper";
 
 chaiUse(chaiAsPromised);
 
@@ -13,7 +14,7 @@ describe("Attach test contract to external contract", async function () {
 
   let test: contracts.Test;
 
-  // optional
+  // optional: use external contract in test case
   //let targetContract: contracts.Greeter;
 
   before(async function () {
@@ -34,7 +35,17 @@ describe("Attach test contract to external contract", async function () {
       test = await ethers.getContractAt("Test", impersonateAddress, signer);
     }
 
-    // optional
+    /*
+    // optional: prepare ETH and ERC20 balances
+    const contractWETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+    const holderWETH = "0xf04a5cc80b1e94c69b48f5ee68a08cd2f09a7c3e";
+    await addBalance_ETH(test.address, 1);
+    await sendToken_ERC20(contractWETH, holderWETH, test.address, 2.5);
+    await printBalance_ETH(test.address);
+    await printBalance_ERC20(contractWETH, test.address);
+    */
+
+    // optional: use external contract in test case
     //targetContract = await ethers.getContractAt("Greeter", contractAddress, signer);
   });
 
