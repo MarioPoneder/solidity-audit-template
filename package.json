@@ -1,11 +1,17 @@
 {
-  "name": "@prb/solidity-template",
-  "description": "Template for writing Solidity smart contracts",
+  "name": "@MarioPoneder/solidity-audit-template",
+  "description": "Solidity Coding, Testing and Audit Template",
   "version": "1.0.0",
-  "author": {
-    "name": "Paul Razvan Berg",
-    "url": "https://github.com/paulrberg"
-  },
+  "contributors": [
+    {
+      "name": "Paul Razvan Berg",
+      "url": "https://github.com/paulrberg"
+    },
+    {
+      "name": "Mario Poneder",
+      "url": "https://github.com/MarioPoneder"
+    }
+  ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
