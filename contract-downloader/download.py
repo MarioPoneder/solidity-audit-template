@@ -26,6 +26,8 @@ def _download(eth, contractAddress, remove, resolveImpl):
 
     for contract in contracts:
         contractName = contract["ContractName"]
+        if contractName == "":
+            raise Exception("No code found at this address!")
         print("----- Contract:", contractName, "-----")
         if resolveImpl and contract["Proxy"] == "1":
             implAddress = contract["Implementation"]
@@ -37,7 +39,8 @@ def _download(eth, contractAddress, remove, resolveImpl):
         try:
             sourceFiles = json.loads(contract["SourceCode"][1:-1])["sources"]
         except json.decoder.JSONDecodeError:
-            raise Exception("Failed to get individual source files. Contract was probably merged to single file upon verification.")
+            print("Warning: Failed to get individual source files. Contract was probably merged to single file upon verification.")
+            sourceFiles = { contractName + ".sol" : { "content" : contract["SourceCode"] } }
 
         # replicate directory tree of contract source code + dependencies
         for sourceFileReference in sourceFiles:
