@@ -1,8 +1,7 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { use as chaiUse, expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { artifacts, ethers, network, waffle } from "hardhat";
-import type { Artifact } from "hardhat/types";
+import { ethers, network } from "hardhat";
 
 import * as contracts from "../../src/types";
 import { addBalance_ETH, printBalance_ERC20, printBalance_ETH, sendToken_ERC20 } from "./helper";
@@ -24,9 +23,10 @@ describe("Attach test contract to external contract", async function () {
 
     [signer] = await ethers.getSigners();
 
-    const testArtifact: Artifact = await artifacts.readArtifact("Test");
     // deploy test contract and pass address of external contract
-    test = <contracts.Test>await waffle.deployContract(signer, testArtifact, [contractAddress]);
+    const testFactory: contracts.Test__factory = <contracts.Test__factory>await ethers.getContractFactory("Test");
+    test = <contracts.Test>await testFactory.connect(signer).deploy(contractAddress);
+    await test.deployed();
 
     if (impersonateAddress) {
       // get deployed code of Test contract and "deploy" it at 'impersonateAddress'

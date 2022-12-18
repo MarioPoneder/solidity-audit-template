@@ -80,11 +80,6 @@ function getCompilerSettings(versions: string[]): SolcUserConfig[] {
         enabled: true,
         runs: 800,
       },
-      outputSelection: {
-        "*": {
-          "*": ["storageLayout"],
-        },
-      },
     };
 
     // metadata key is not supported in solc versions < 0.6.0
@@ -147,7 +142,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    compilers: getCompilerSettings(["0.8.15"]),
+    compilers: getCompilerSettings(["0.8.17"]),
   },
   typechain: {
     outDir: "src/types",

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { ethers, network } from "hardhat";
 
 import * as contracts from "../../src/types";
-import { impersonate } from "./helper";
+import { addBalance_ETH, impersonate, printBalance_ERC20, printBalance_ETH, sendToken_ERC20 } from "./helper";
 
 describe("Attach to external contract", async function () {
   let signer: SignerWithAddress;
