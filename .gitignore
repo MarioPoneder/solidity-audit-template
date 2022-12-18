@@ -15,7 +15,7 @@
 **/dist
 **/node_modules
 **/__pycache__
-src/types/**
+**/types
 
 # files
 *.env

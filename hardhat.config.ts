@@ -1,20 +1,17 @@
-import "@nomiclabs/hardhat-etherscan";
-import "@nomiclabs/hardhat-waffle";
-import "@typechain/hardhat";
+import "@nomicfoundation/hardhat-toolbox";
 import { config as dotenvConfig } from "dotenv";
-import "hardhat-gas-reporter";
 import "hardhat-storage-layout";
 import "hardhat-tracer";
 import { HardhatUserConfig } from "hardhat/config";
 import { HardhatNetworkForkingUserConfig, HardhatNetworkUserConfig, SolcUserConfig } from "hardhat/types";
 import { resolve } from "path";
-import "solidity-coverage";
 
 import "./tasks/accounts";
 import "./tasks/deploy";
 import "./tasks/storage-layout";
 
-dotenvConfig({ path: resolve(__dirname, "./.env") });
+const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || "./.env";
+dotenvConfig({ path: resolve(__dirname, dotenvConfigPath) });
 
 // Ensure that we have all the environment variables we need.
 const mnemonic: string | undefined = process.env.MNEMONIC;
@@ -36,7 +33,7 @@ const chainIds: { [name: string]: number } = {
   "optimism-mainnet": 10,
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
-  rinkeby: 4,
+  sepolia: 11155111,
   moonbeam: 1284,
   "aurora-mainnet": 1313161554,
 };
@@ -116,7 +113,7 @@ const config: HardhatUserConfig = {
       optimisticEthereum: process.env.OPTIMISM_API_KEY || "",
       polygon: process.env.POLYGONSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
-      rinkeby: process.env.ETHERSCAN_API_KEY || "",
+      sepolia: process.env.ETHERSCAN_API_KEY || "",
     },
   },
   gasReporter: {
@@ -139,7 +136,7 @@ const config: HardhatUserConfig = {
     optimism: getChainConfig("optimism-mainnet"),
     "polygon-mainnet": getChainConfig("polygon-mainnet"),
     "polygon-mumbai": getChainConfig("polygon-mumbai"),
-    rinkeby: getChainConfig("rinkeby"),
+    sepolia: getChainConfig("sepolia"),
     moonbeam: getChainConfig("moonbeam"),
     aurora: getChainConfig("aurora-mainnet"),
   },

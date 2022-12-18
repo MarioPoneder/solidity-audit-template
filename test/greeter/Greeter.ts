@@ -1,10 +1,10 @@
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { artifacts, ethers, waffle } from "hardhat";
-import type { Artifact } from "hardhat/types";
+import { ethers } from "hardhat";
 
-import type { Greeter } from "../../src/types/contracts/Greeter";
-import { Signers } from "../types";
+import type { Signers } from "../types";
 import { shouldBehaveLikeGreeter } from "./Greeter.behavior";
+import { deployGreeterFixture } from "./Greeter.fixture";
 
 describe("Unit tests", function () {
   before(async function () {
@@ -12,13 +12,14 @@ describe("Unit tests", function () {
 
     const signers: SignerWithAddress[] = await ethers.getSigners();
     this.signers.admin = signers[0];
+
+    this.loadFixture = loadFixture;
   });
 
   describe("Greeter", function () {
     beforeEach(async function () {
-      const greeting: string = "Hello, world!";
-      const greeterArtifact: Artifact = await artifacts.readArtifact("Greeter");
-      this.greeter = <Greeter>await waffle.deployContract(this.signers.admin, greeterArtifact, [greeting]);
+      const { greeter } = await this.loadFixture(deployGreeterFixture);
+      this.greeter = greeter;
     });
 
     shouldBehaveLikeGreeter();
