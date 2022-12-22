@@ -33,24 +33,24 @@ export async function addBalance_ETH(account: string, amount_eth: number): Promi
 
 // get ERC20 account balance in token units (not base units)
 export async function getBalance_ERC20(token: string, account: string): Promise<string> {
-  let [signer] = await ethers.getSigners();
-  let tokenContract = new ethers.Contract(token, ERC20_InterfaceSubset, signer);
+  const [signer] = await ethers.getSigners();
+  const tokenContract = new ethers.Contract(token, ERC20_InterfaceSubset, signer);
   const tokenDecimals = await tokenContract.decimals();
   const balance_baseunits = await tokenContract.balanceOf(account);
   return ethers.utils.formatUnits(balance_baseunits, tokenDecimals);
 }
 export async function printBalance_ERC20(token: string, account: string): Promise<void> {
-  let [signer] = await ethers.getSigners();
-  let tokenContract = new ethers.Contract(token, ERC20_InterfaceSubset, signer);
+  const [signer] = await ethers.getSigners();
+  const tokenContract = new ethers.Contract(token, ERC20_InterfaceSubset, signer);
   console.log("Balance of", account, "|", await tokenContract.symbol(), ":", await getBalance_ERC20(token, account));
 }
 
 // send token amount in token units (not base units) from arbitrary account (will be impersonated) to given account
 export async function sendToken_ERC20(token: string, from: string, to: string, amount_units: number): Promise<void> {
-  let signer = await impersonate(from); // impersonate 'from' address
+  const signer = await impersonate(from); // impersonate 'from' address
   await addBalance_ETH(from, 0.1); // fund 'from' address to pay for token transfer
 
-  let tokenContract = new ethers.Contract(token, ERC20_InterfaceSubset, signer);
+  const tokenContract = new ethers.Contract(token, ERC20_InterfaceSubset, signer);
 
   const tokenDecimals = await tokenContract.decimals();
   const amount_baseunits = ethers.utils.parseUnits(amount_units.toString(), tokenDecimals);

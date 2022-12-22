@@ -65,10 +65,10 @@ function getChainConfig(chain: string): HardhatNetworkUserConfig & HardhatNetwor
 }
 
 function getCompilerSettings(versions: string[]): SolcUserConfig[] {
-  let compilerSettings: SolcUserConfig[] = [];
+  const compilerSettings: SolcUserConfig[] = [];
 
-  for (let ver of versions) {
-    let solSettings: any = {
+  for (const ver of versions) {
+    const solSettings: any = {
       metadata: {
         // Not including the metadata hash
         // https://github.com/paulrberg/solidity-template/issues/31

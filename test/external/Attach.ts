@@ -1,6 +1,6 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
-import { ethers, network } from "hardhat";
+import { ethers } from "hardhat";
 
 import * as contracts from "../../src/types";
 import { addBalance_ETH, impersonate, printBalance_ERC20, printBalance_ETH, sendToken_ERC20 } from "./helper";

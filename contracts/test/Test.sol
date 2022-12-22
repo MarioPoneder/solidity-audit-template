@@ -5,7 +5,7 @@ pragma solidity >=0.8.4;
 import "../Greeter.sol";
 
 contract Test {
-    address immutable targetAddress;
+    address public immutable targetAddress;
 
     constructor(address _targetAddress) {
         targetAddress = _targetAddress;
