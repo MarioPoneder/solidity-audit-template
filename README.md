@@ -1,9 +1,7 @@
-# Solidity Coding, Testing and Audit Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+# Solidity Coding, Testing and Audit Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
 
 [gitpod]: https://gitpod.io/#https://github.com/MarioPoneder/solidity-audit-template
 [gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
-[gha]: https://github.com/MarioPoneder/solidity-audit-template/actions
-[gha-badge]: https://github.com/MarioPoneder/solidity-audit-template/actions/workflows/ci.yml/badge.svg
 [hardhat]: https://hardhat.org/
 [hardhat-badge]: https://img.shields.io/badge/Built%20with-Hardhat-FFDB1C.svg
 [license]: https://opensource.org/licenses/MIT
@@ -59,12 +57,13 @@ This template comes with sensible default configurations in the following files:
 
 ### GitHub Actions
 
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
+This template comes with GitHub Actions pre-configured (disabled per default). Your contracts will be linted and tested
+on every push and pull request made to the `main` branch.
 
-Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets.
+Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets and rename
+the CI script to `ci.yml` in order to enable it.
 
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
+You can edit the CI script in [.github/workflows/ci.yml.example](./.github/workflows/ci.yml.example).
 
 ### Conventional Commits
 
