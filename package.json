@@ -86,6 +86,7 @@
   },
   "scripts": {
     "clean": "shx rm -rf ./artifacts ./cache ./coverage ./src/types ./coverage.json ./slither_report.md",
+    "cleanContracts": "git clean contracts -d -f",
     "commit": "git-cz",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "yarn typechain && hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/[!external]*/*.ts\" && yarn typechain",
