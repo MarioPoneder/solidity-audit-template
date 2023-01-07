@@ -287,6 +287,22 @@ Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
 $ yarn clean
 ```
 
+### Clean contracts
+
+Delete all non-template contracts from the contract directory:
+
+```sh
+$ yarn cleanContracts
+```
+
+### Clean all
+
+Combines [Clean](#clean) and [Clean contracts](#clean-contracts):
+
+```sh
+$ yarn cleanAll
+```
+
 ### Deploy
 
 Deploy the example Greeter contract to the Hardhat Network:
