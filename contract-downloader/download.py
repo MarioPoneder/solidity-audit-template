@@ -23,18 +23,23 @@ def _fakeInstallModule(sourceFilePath):
 def _download(eth, contractAddress, remove, resolveImpl):
     # get contract source code + dependencies
     contracts = eth.get_contract_source_code(contractAddress)
+    versions = {}
 
     for contract in contracts:
         contractName = contract["ContractName"]
         if contractName == "":
             raise Exception("No code found at this address!")
-        print("----- Contract:", contractName, "-----")
+
+        compilerVersion = contract["CompilerVersion"]
+        print("----- Contract:", contractName, "| Compiler:", compilerVersion, "-----")
         if resolveImpl and contract["Proxy"] == "1":
             implAddress = contract["Implementation"]
             print("Proxy! -> Using implementation contract", implAddress, "instead ...")
-            _download(eth, implAddress, remove, False)
-            return
+            versions |= _download(eth, implAddress, remove, False)
+            continue
         
+        versions[compilerVersion[1:compilerVersion.index("+")]] = True # e.g. parse '0.7.6' from 'v0.7.6+commit.7338295f' and add to dict
+
         # parse contract source code + dependencies form JSON
         try:
             sourceFiles = json.loads(contract["SourceCode"][1:-1])["sources"]
@@ -73,6 +78,8 @@ def _download(eth, contractAddress, remove, resolveImpl):
                 except Exception:
                     pass
 
+    return versions
+
 
 def start(network, contractAddress, remove, resolveImpl):
     # get API keys from .env file
@@ -86,17 +93,20 @@ def start(network, contractAddress, remove, resolveImpl):
     else:
         print("Removing", network, "contract", contractAddress, "...")
     
+    compilerVersions = {}
     if network == "mainnet":
         eth = Etherscan(etherscanApiKey)
-        _download(eth, contractAddress, remove, resolveImpl)
+        compilerVersions = _download(eth, contractAddress, remove, resolveImpl)
     elif network == "polygon":
         with PolygonScan(polygonscanApiKey, False) as eth:
-            _download(eth, contractAddress, remove, resolveImpl)
+            compilerVersions = _download(eth, contractAddress, remove, resolveImpl)
     elif network == "bsc":
         with BscScan(bscscanApiKey, False) as eth:
-            _download(eth, contractAddress, remove, resolveImpl)
+            compilerVersions = _download(eth, contractAddress, remove, resolveImpl)
     else:
         print("Unsupported network!")
+
+    return compilerVersions
 
 
 if __name__ == "__main__":

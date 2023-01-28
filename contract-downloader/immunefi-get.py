@@ -36,10 +36,11 @@ if __name__ == "__main__":
         
         # forward found contracts to downloader
         skippedContracts = []
+        compilerVersions = {}
         for contract in contracts:
             #print(contract)
             try:
-                download.start(supportedExplorers[contract[0]], contract[1], args.remove, True) # always try to resolve implementation contract
+                compilerVersions |= download.start(supportedExplorers[contract[0]], contract[1], args.remove, True) # always try to resolve implementation contract
             except Exception as e:
                 print("Warning:", e)
                 skippedContracts.append(contract)
@@ -51,6 +52,7 @@ if __name__ == "__main__":
                 print(contract)
         
         print("")
+        print("Compiler versions:", [version for version in reversed(compilerVersions)])
         print("Done!")
     except Exception as e:
         print("Error:", e)
